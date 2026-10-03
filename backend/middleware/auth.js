@@ -1,0 +1,5 @@
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+export async function protect(req,res,next) { try { const token=(req.headers.authorization||'').replace(/^Bearer\s+/i,''); if (!token) return res.status(401).json({success:false,message:'Authentication required',errors:[]}); const payload=jwt.verify(token,process.env.JWT_SECRET); req.user=await User.findById(payload.id); if(!req.user) return res.status(401).json({success:false,message:'Account no longer exists',errors:[]}); next(); } catch { return res.status(401).json({success:false,message:'Invalid or expired token',errors:[]}); } }
+export async function optionalUser(req,res,next) { try { const token=(req.headers.authorization||'').replace(/^Bearer\\s+/i,''); if(token){const payload=jwt.verify(token,process.env.JWT_SECRET);req.user=await User.findById(payload.id);} } catch {} next(); }
+export const adminOnly=(req,res,next)=>req.user?.role==='admin'?next():res.status(403).json({success:false,message:'Administrator access required',errors:[]});

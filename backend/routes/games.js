@@ -1,0 +1,2 @@
+import {Router} from 'express';import * as c from '../controllers/gameController.js';import {protect,adminOnly} from '../middleware/auth.js';import {asyncHandler} from '../utils/asyncHandler.js';
+const r=Router();r.get('/',asyncHandler(c.listGames));r.get('/:id',asyncHandler(c.getGame));r.post('/',protect,adminOnly,asyncHandler(c.createGame));r.put('/:id',protect,adminOnly,asyncHandler(c.updateGame));r.delete('/:id',protect,adminOnly,asyncHandler(c.deleteGame));export default r;

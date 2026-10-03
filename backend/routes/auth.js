@@ -1,0 +1,2 @@
+import {Router} from 'express';import {register,login,me} from '../controllers/authController.js';import {protect} from '../middleware/auth.js';import {asyncHandler} from '../utils/asyncHandler.js';import {ok} from '../utils/respond.js';
+const r=Router();r.post('/register',asyncHandler(register));r.post('/login',asyncHandler(login));r.get('/me',protect,asyncHandler(me));r.get('/logout',protect,(req,res)=>ok(res,{},'Logged out. Remove the token from this device.'));export default r;

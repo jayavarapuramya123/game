@@ -1,0 +1,3 @@
+import Achievement from '../models/Achievement.js';import UserAchievement from '../models/UserAchievement.js';import {ok} from '../utils/respond.js';
+export async function allAchievements(req,res){return ok(res,{achievements:await Achievement.find().sort({createdAt:1})});}
+export async function myAchievements(req,res){const [unlocked,all]=await Promise.all([UserAchievement.find({user:req.user._id}).populate('achievement').sort({unlockedAt:-1}),Achievement.find()]);const ids=new Set(unlocked.map(x=>String(x.achievement?._id)));return ok(res,{unlocked,achievements:all.map(achievement=>({achievement,unlocked:ids.has(String(achievement._id)),unlockedAt:unlocked.find(x=>String(x.achievement?._id)===String(achievement._id))?.unlockedAt||null}))});}

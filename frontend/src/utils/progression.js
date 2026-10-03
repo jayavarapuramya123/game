@@ -1,0 +1,1 @@
+export function progressionFromXp(totalXp=0){let level=1,remaining=Math.max(0,totalXp);const neededFor=(current)=>250+Math.max(0,current-1)*100;while(remaining>=neededFor(level)){remaining-=neededFor(level);level+=1;}return {level,currentLevelXp:remaining,nextLevelXp:neededFor(level)};}

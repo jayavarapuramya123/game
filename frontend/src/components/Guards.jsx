@@ -1,0 +1,2 @@
+import {Navigate,useLocation} from 'react-router-dom';import {useAuth} from '../context/AuthContext';
+export function Protected({children,admin=false}){const {user,ready}=useAuth(),loc=useLocation();if(!ready)return <div className="screen-loader"><div className="loader-orb"/>Loading GameZone</div>;if(!user)return <Navigate to="/login" replace state={{from:loc.pathname}}/>;if(admin&&user.role!=='admin')return <Navigate to="/" replace/>;return children;}

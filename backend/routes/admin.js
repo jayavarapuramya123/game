@@ -1,0 +1,2 @@
+import {Router} from 'express';import * as c from '../controllers/adminController.js';import {protect,adminOnly} from '../middleware/auth.js';import {asyncHandler} from '../utils/asyncHandler.js';
+const r=Router();r.use(protect,adminOnly);r.get('/users',asyncHandler(c.users));r.patch('/users/:id',asyncHandler(c.changeRole));r.delete('/users/:id',asyncHandler(c.deleteUser));r.get('/statistics',asyncHandler(c.statistics));export default r;
